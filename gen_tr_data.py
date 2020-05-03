@@ -11,7 +11,7 @@ def keys_to_output(keys):
     '''
     Convert keys to a ...multi-hot... array
 
-    [A,W,D] boolean values.
+    [Jump,Not_jump] boolean values.
     '''
     output = [0, 0]
 
@@ -37,11 +37,8 @@ for i in list(range(4))[::-1]:
     time.sleep(1)
 
 while (True):
-    # 800x600 windowed mode
-    #screen = grab_screen(region=(123, 499, 408, 570))
     screen_grab = ImageGrab.grab(bbox=(123, 499, 408, 570))
     screen_arr = np.array(screen_grab)
-    #last_time = time.time()
     screen_gray = cv2.cvtColor(screen_arr, cv2.COLOR_BGR2GRAY)
     # resize to something a bit more acceptable for a CNN
     screen_resized = cv2.resize(screen_gray, (80, 60))
@@ -49,10 +46,7 @@ while (True):
     output = keys_to_output(keys)
     training_data.append([screen_resized, output])
 
-    # if cv2.waitKey(25) & 0xFF == ord('q'):
-    #     cv2.destroyAllWindows()
-    #     break
-
+   
     if len(training_data) % 500 == 0:
         print(len(training_data))
         np.save(file_name, training_data)
