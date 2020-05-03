@@ -29,18 +29,19 @@ def keys_to_output(keys):
 def jump():
     keyboard.press(' ')
 
-
-model = alexnet(WIDTH, HEIGHT, LR)
-model.load(MODEL_NAME)
-while(True):
-        # 800x600 windowed mode
-        screen_grab = ImageGrab.grab(bbox=(123, 499, 408, 570))
-        screen_arr = np.array(screen_grab)
-        last_time = time.time()
-        screen_gray = cv2.cvtColor(screen_arr, cv2.COLOR_BGR2GRAY)
-        # resize to something a bit more acceptable for a CNN
-        screen_resized = cv2.resize(screen_gray, (80, 60))
-        moves = list(np.around(model.predict([screen_resized.reshape(80, 60, 1)])[0]))
-        print(moves)
-        if moves == [1,0]:
-            jump()
+def main():
+    model = alexnet(WIDTH, HEIGHT, LR)
+    model.load(MODEL_NAME)
+    while(True):
+            # 800x600 windowed mode
+            screen_grab = ImageGrab.grab(bbox=(123, 499, 408, 570))
+            screen_arr = np.array(screen_grab)
+            last_time = time.time()
+            screen_gray = cv2.cvtColor(screen_arr, cv2.COLOR_BGR2GRAY)
+            # resize to something a bit more acceptable for a CNN
+            screen_resized = cv2.resize(screen_gray, (80, 60))
+            moves = list(np.around(model.predict([screen_resized.reshape(80, 60, 1)])[0]))
+            print(moves)
+            if moves == [1,0]:
+                jump()
+main()
